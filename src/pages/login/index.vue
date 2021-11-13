@@ -2,6 +2,7 @@
 import { actions, state } from "./login";
 
 // console.log(state);
+// legal
 
 </script>
 
