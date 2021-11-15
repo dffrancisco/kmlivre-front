@@ -10,7 +10,7 @@ const tabActive = ref('Trajeto');
 const show = ref(false);
 
 onMounted(() => {
-	actions.getTrajetoAberto()
+	actions.getTrajetoAberto();
 	actions.getGeo()
 })
 

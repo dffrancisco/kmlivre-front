@@ -8,7 +8,7 @@ export const state = reactive({
     latitude: 0,
     longitude: 0,
     trajeto: <iTrajeto>{},
-    grid: '',
+    grid: ''
 });
 
 export const actions = {
@@ -31,6 +31,29 @@ export const actions = {
         state.trajeto = data;
     },
 
+
+    async iniciaTrajeto(km: number | any) {
+
+        if (state.latitude == 0 || state.latitude == null) {
+            util.show('Parece que o GPS não está funcionado')
+            return;
+        }
+
+        let { data } = await axios.post('/trajeto', {
+            call: 'iniciaTrajeto',
+            param: {
+                latitude: state.latitude,
+                longitude: state.longitude,
+                km: km
+            }
+        })
+
+
+        return data
+
+
+    },
+
     async finalizarTrajeto(km: number | any) {
 
         if (state.latitude == 0 || state.latitude == null) {
@@ -47,13 +70,7 @@ export const actions = {
             }
         })
 
-
-        if (data.msg)
-            actions.getTrajetoAberto()
-
-        if (data.error)
-            util.show(data.error)
-
+        return data
 
     }
 

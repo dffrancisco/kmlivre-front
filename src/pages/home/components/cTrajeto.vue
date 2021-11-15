@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { Toast } from 'vant';
 import { iTrajeto } from '@/models/interfaces';
 import { actions, state } from '../home'
 //@ts-ignore
@@ -13,28 +14,94 @@ const props = defineProps({
     }
 })
 
-const km = ref('')
-const edtKm = ref()
+const kmInicial = ref('')
+const kmFinal = ref('')
 
-function finalizarTrajeto() {
-    if (km.value == '') {
+const edtKmIncial = ref()
+const edtKmFinal = ref()
+
+async function iniciaTrajeto() {
+    if (kmInicial.value == '') {
         util.show({
             msg: 'Informe o KM para continuar',
             onClose: () => {
-                edtKm.value.focus()
+                edtKmIncial.value.focus()
             }
         })
         return;
     }
 
-    actions.finalizarTrajeto(km.value)
+    Toast.loading({
+        message: 'Iniciando...',
+        forbidClick: true,
+    });
+
+    let data = await actions.iniciaTrajeto(kmInicial.value)
+
+    Toast.clear()
+
+    kmInicial.value = '';
+
+    if (data.msg) {
+        actions.getTrajetoAberto()
+        Toast.success('Rota Inicializada');
+    }
+
+    if (data.error) {
+        util.show(data.error)
+        Toast.fail(data.error);
+    }
 }
+
+
+async function finalizarTrajeto() {
+    if (kmFinal.value == '') {
+        util.show({
+            msg: 'Informe o KM para continuar',
+            onClose: () => {
+                edtKmFinal.value.focus()
+            }
+        })
+        return;
+    }
+
+    if (Number(props.trajeto?.b_km) > Number(kmFinal.value)) {
+        util.show('KM final não pode ser menor que o KM Inicial')
+        return
+    }
+
+
+    Toast.loading({
+        message: 'Finalizando...',
+        forbidClick: true
+    });
+
+    let data = await actions.finalizarTrajeto(kmFinal.value)
+
+    Toast.clear()
+
+    kmFinal.value = ''
+
+    if (data.msg) {
+        actions.getTrajetoAberto()
+        Toast.success('Rota Finalizada');
+    }
+
+    if (data.error) {
+        util.show(data.error)
+        Toast.fail(data.error);
+    }
+
+}
+
+
 
 // const time = ref(30 * 60 * 60 * 100);
 // const startTime = moment(props.trajeto?.b_data + ' ' + props.trajeto?.b_hora, 'YYYY-MM-DD hh:mm:ss');
 // const endTime = moment('2021-11-09 11:52:53', 'YYYY-MM-DD hh:mm:ss');
 // var totalHours = (endTime.diff(startTime, 'hours'));
 // var totalMinutes = endTime.diff(startTime, 'minutes');
+
 
 </script>
 
@@ -76,10 +143,16 @@ function finalizarTrajeto() {
             <van-col span="24">
                 <div v-show="!trajeto?.b_data" class="text-center">
                     <van-cell-group inset>
-                        <van-field type="number" v-model="km" label="KM" placeholder="KM Inicial" />
+                        <van-field
+                            ref="edtKmIncial"
+                            type="number"
+                            v-model="kmInicial"
+                            label="KM"
+                            placeholder="KM Inicial"
+                        />
                     </van-cell-group>
 
-                    <van-button round type="primary" class="mt-5">
+                    <van-button @click="iniciaTrajeto()" round type="primary" class="mt-5">
                         <mdicon name="routes" />Iniciar Trajeto
                     </van-button>
                 </div>
@@ -87,9 +160,9 @@ function finalizarTrajeto() {
                 <div v-show="trajeto?.b_data && !trajeto?.f_data" class="text-center">
                     <van-cell-group inset>
                         <van-field
-                            ref="edtKm"
+                            ref="edtKmFinal"
                             type="number"
-                            v-model="km"
+                            v-model="kmFinal"
                             label="KM"
                             placeholder="KM Final"
                         />
@@ -136,5 +209,11 @@ function finalizarTrajeto() {
     margin: 15px;
     border-radius: 8px;
     padding: 10px;
+}
+</style>
+
+<style>
+.van-popup--center {
+    left: 0 !important;
 }
 </style>
