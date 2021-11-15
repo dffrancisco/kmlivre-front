@@ -4,17 +4,16 @@ import { nextTick, ref } from "vue";
 import ReloadPWA from "./components/ReloadPWA.vue";
 import { state } from './globalStore'
 import loginStore from '@/pages/login/login'
+import homeState from '@/pages/home/home'
 
 let install = ref(false);
 let deferredPrompt: null
 
 nextTick(() => {
 
-
   window.onfocus = () => {
-    console.log('------onfocus');
+    homeState.actions.getTrajetoAberto()
   }
-
 
   window.addEventListener("appinstalled", () => {
     console.log("a2hs installed");
