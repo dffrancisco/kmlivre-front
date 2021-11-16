@@ -90,6 +90,7 @@ async function finalizarTrajeto() {
 
     if (data.msg) {
         actions.getTrajetoAberto()
+        actions.getUltimoTrajeto()
         Toast.success('Rota Finalizada');
     }
 
@@ -100,6 +101,9 @@ async function finalizarTrajeto() {
 
 }
 
+function setKM() {
+    kmFinal.value = state.ultimoTrajeto
+}
 
 
 // const time = ref(30 * 60 * 60 * 100);
@@ -148,6 +152,16 @@ async function finalizarTrajeto() {
             </van-col>
             <van-col span="24">
                 <div v-show="!trajeto?.b_data" class="text-center">
+                    <van-button
+                        round
+                        plain
+                        hairline
+                        type="primary"
+                        size="small"
+                        class="mb-3 px-5"
+                        @click="setKM"
+                    >Último KM {{ state.ultimoTrajeto }}</van-button>
+
                     <van-cell-group inset>
                         <van-field
                             ref="edtKmIncial"

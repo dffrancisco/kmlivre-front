@@ -12,8 +12,10 @@ const show = ref(false);
 onMounted(async () => {
 
 
-	if (loginStore.state.auth)
+	if (loginStore.state.auth) {
 		actions.getTrajetoAberto();
+		actions.getUltimoTrajeto()
+	}
 
 	await actions.getGeo()
 })

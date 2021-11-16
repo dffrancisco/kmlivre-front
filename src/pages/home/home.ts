@@ -7,6 +7,7 @@ import util from '@/plugins/util.js';
 export const state = reactive({
     latitude: 0,
     longitude: 0,
+    ultimoTrajeto: '',
     trajeto: <iTrajeto>{},
     grid: ''
 });
@@ -84,7 +85,21 @@ export const actions = {
 
         return data
 
+    },
+
+    async getUltimoTrajeto() {
+
+        let { data } = await axios.post('/trajeto', {
+            call: 'getUltimoTrajeto'
+        })
+
+        data = data.length ? data[0].f_km : []
+
+        state.ultimoTrajeto = data
+
     }
+
+
 
 }
 
