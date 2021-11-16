@@ -1,7 +1,8 @@
 import { reactive } from "vue";
-
+import version from '../package.json'
 export const state = reactive({
     title: '',
+    version: version.version,
     login: {
         name: '',
         token: '',
