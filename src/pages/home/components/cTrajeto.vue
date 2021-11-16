@@ -20,13 +20,7 @@ const kmFinal = ref('')
 const edtKmIncial = ref()
 const edtKmFinal = ref()
 
-setInterval(() => {
-    navigator.geolocation.getCurrentPosition((r) => {
-        state.latitude = r.coords.latitude;
-        state.longitude = r.coords.longitude;
-    })
-}, 1000)
-
+actions.startWatch()
 
 async function iniciaTrajeto() {
 
@@ -221,7 +215,7 @@ function setKM() {
         <van-row>
             <van-col span="24">
                 <div class="t-inf text-center">
-                    <van-loading v-show="state.loadGEO" color="#1989fa" />
+                    <!-- <van-loading v-show="state.loadGEO" color="#1989fa" /> -->
                     <van-row>
                         <van-col class="text-center" span="12">
                             <span class="fs-12 pr-2">Latitude:</span>

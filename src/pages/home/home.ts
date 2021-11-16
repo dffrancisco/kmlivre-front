@@ -4,6 +4,8 @@ import { iTrajeto } from '@/models/interfaces'
 //@ts-ignore
 import util from '@/plugins/util.js';
 
+var geoWatch: any;
+
 export const state = reactive({
     latitude: 0,
     longitude: 0,
@@ -17,25 +19,85 @@ export const state = reactive({
 export const actions = {
 
     async getGeo() {
-        state.btnGeo = true;
+        // state.btnGeo = true;
 
-        state.loadGEO = true
+        // state.loadGEO = true
+
+        // if (navigator.geolocation) {
+        //     navigator.geolocation.getCurrentPosition((r) => {
+        //         state.latitude = r.coords.latitude;
+        //         state.longitude = r.coords.longitude;
+        //         // console.log(r);
+        //         state.btnGeo = false;
+        //     })
+        // } else {
+        //     util.show('Ative o GPS para continuar')
+        // }
+
+
+        // state.loadGEO = false
+
 
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((r) => {
-                state.latitude = r.coords.latitude;
-                state.longitude = r.coords.longitude;
-                // console.log(r);
-                state.btnGeo = false;
-            })
-        } else {
-            util.show('Ative o GPS para continuar')
+
+            navigator.geolocation.getCurrentPosition(actions.setCurrentPosition, actions.positionError, {
+                enableHighAccuracy: false,
+                timeout: 15000,
+                maximumAge: 0
+            });
         }
 
 
-        state.loadGEO = false
+    },
+
+    setCurrentPosition(position: any) {
+        state.latitude = position.coords.latitude;
+        state.longitude = position.coords.longitude;
+    },
 
 
+    positionError(error: any) {
+
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+
+                util.show("User denied the request for Geolocation.");
+                break;
+
+            case error.POSITION_UNAVAILABLE:
+
+                util.show("Location information is unavailable.");
+                break;
+
+            case error.TIMEOUT:
+
+                util.show("The request to get user location timed out.");
+                break;
+
+            case error.UNKNOWN_ERROR:
+
+                util.show("An unknown error occurred.");
+                break;
+        }
+    },
+
+    startWatch() {
+
+        if (!geoWatch) {
+
+            if ("geolocation" in navigator && "watchPosition" in navigator.geolocation) {
+
+                geoWatch = navigator.geolocation.watchPosition(actions.setCurrentPosition, actions.positionError, {
+                    enableHighAccuracy: false, timeout: 15000, maximumAge: 0
+                });
+
+            }
+        }
+    },
+
+    stopWatch() {
+        navigator.geolocation.clearWatch(geoWatch);
+        geoWatch = undefined;
     },
 
     async getTrajetoAberto() {
