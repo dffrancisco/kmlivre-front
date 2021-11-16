@@ -32,6 +32,7 @@ export const actions = {
 
     async getTrajetoAberto() {
 
+
         let { data } = await axios.post('/trajeto', {
             call: 'getTrajetoAberto'
         })

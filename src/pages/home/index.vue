@@ -10,7 +10,11 @@ const tabActive = ref('Trajeto');
 const show = ref(false);
 
 onMounted(async () => {
-	actions.getTrajetoAberto();
+
+
+	if (loginStore.state.auth)
+		actions.getTrajetoAberto();
+
 	await actions.getGeo()
 })
 
