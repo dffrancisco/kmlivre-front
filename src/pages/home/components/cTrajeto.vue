@@ -82,7 +82,7 @@ async function finalizarTrajeto() {
         forbidClick: true
     });
 
-    let data = await actions.finalizarTrajeto(kmFinal.value)
+    let data = await actions.finalizarTrajeto(kmFinal.value, props.trajeto?.id_router)
 
     Toast.clear()
 

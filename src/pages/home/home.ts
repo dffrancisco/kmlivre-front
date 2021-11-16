@@ -65,7 +65,7 @@ export const actions = {
 
     },
 
-    async finalizarTrajeto(km: number | any) {
+    async finalizarTrajeto(km: number | any, id_router: number | any) {
 
         if (state.latitude == 0 || state.latitude == null) {
             util.show('Parece que o GPS não está funcionado')
@@ -77,6 +77,7 @@ export const actions = {
             param: {
                 latitude: state.latitude,
                 longitude: state.longitude,
+                id_router: id_router,
                 km: km
             }
         })
