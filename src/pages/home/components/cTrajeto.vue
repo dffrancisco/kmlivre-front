@@ -21,7 +21,10 @@ const edtKmIncial = ref()
 const edtKmFinal = ref()
 
 setInterval(() => {
-    actions.getGeo();
+    navigator.geolocation.getCurrentPosition((r) => {
+        state.latitude = r.coords.latitude;
+        state.longitude = r.coords.longitude;
+    })
 }, 1000)
 
 
