@@ -102,7 +102,7 @@ async function finalizarTrajeto() {
 }
 
 function setKM() {
-    kmFinal.value = state.ultimoTrajeto
+    kmInicial.value = state.ultimoTrajeto
 }
 
 
