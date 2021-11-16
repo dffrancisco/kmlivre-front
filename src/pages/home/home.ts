@@ -14,10 +14,20 @@ export const state = reactive({
 export const actions = {
 
     async getGeo() {
-        navigator.geolocation.getCurrentPosition((r) => {
-            state.latitude = r.coords.latitude;
-            state.longitude = r.coords.longitude;
-        });
+
+        return new Promise((Response) => {
+
+            navigator.geolocation.getCurrentPosition((r) => {
+                state.latitude = r.coords.latitude;
+                state.longitude = r.coords.longitude;
+            });
+
+            console.log('geo');
+            Response(true)
+
+        })
+
+
     },
 
     async getTrajetoAberto() {

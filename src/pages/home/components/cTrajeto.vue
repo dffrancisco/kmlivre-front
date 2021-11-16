@@ -21,6 +21,9 @@ const edtKmIncial = ref()
 const edtKmFinal = ref()
 
 async function iniciaTrajeto() {
+
+    await actions.getGeo();
+
     if (kmInicial.value == '') {
         util.show({
             msg: 'Informe o KM para continuar',
@@ -55,6 +58,9 @@ async function iniciaTrajeto() {
 
 
 async function finalizarTrajeto() {
+
+    await actions.getGeo();
+
     if (kmFinal.value == '') {
         util.show({
             msg: 'Informe o KM para continuar',
@@ -153,7 +159,7 @@ async function finalizarTrajeto() {
                     </van-cell-group>
 
                     <van-button @click="iniciaTrajeto()" round type="primary" class="mt-5">
-                        <mdicon name="routes" />Iniciar Trajeto
+                        <mdicon name="routes" class="pr-2" />Iniciar Trajeto
                     </van-button>
                 </div>
 

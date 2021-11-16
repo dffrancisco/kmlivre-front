@@ -9,9 +9,9 @@ import CRotas from './components/cRotas.vue';
 const tabActive = ref('Trajeto');
 const show = ref(false);
 
-onMounted(() => {
+onMounted(async () => {
 	actions.getTrajetoAberto();
-	actions.getGeo()
+	await actions.getGeo()
 })
 
 
