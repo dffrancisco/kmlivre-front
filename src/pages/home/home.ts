@@ -7,7 +7,9 @@ import util from '@/plugins/util.js';
 export const state = reactive({
     latitude: 0,
     longitude: 0,
+    loadGEO: true,
     ultimoTrajeto: '',
+    btnGeo: false,
     trajeto: <iTrajeto>{},
     grid: ''
 });
@@ -15,18 +17,23 @@ export const state = reactive({
 export const actions = {
 
     async getGeo() {
+        state.btnGeo = true;
 
-        return new Promise((Response) => {
+        state.loadGEO = true
 
+        if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((r) => {
                 state.latitude = r.coords.latitude;
                 state.longitude = r.coords.longitude;
-            });
+                // console.log(r);
+                state.btnGeo = false;
+            })
+        } else {
+            util.show('Ative o GPS para continuar')
+        }
 
-            console.log('geo');
-            Response(true)
 
-        })
+        state.loadGEO = false
 
 
     },

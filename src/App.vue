@@ -13,6 +13,8 @@ nextTick(() => {
 
   window.onfocus = () => {
 
+    homeState.actions.getGeo()
+
     if (loginStore.state.auth)
       if (loginStore.state.mobile)
         homeState.actions.getTrajetoAberto()
