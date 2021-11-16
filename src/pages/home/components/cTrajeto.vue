@@ -20,6 +20,11 @@ const kmFinal = ref('')
 const edtKmIncial = ref()
 const edtKmFinal = ref()
 
+setInterval(() => {
+    actions.getGeo();
+}, 1000)
+
+
 async function iniciaTrajeto() {
 
     await actions.getGeo();
@@ -112,11 +117,9 @@ function setKM() {
 }
 
 
-// const time = ref(30 * 60 * 60 * 100);
-// const startTime = moment(props.trajeto?.b_data + ' ' + props.trajeto?.b_hora, 'YYYY-MM-DD hh:mm:ss');
-// const endTime = moment('2021-11-09 11:52:53', 'YYYY-MM-DD hh:mm:ss');
-// var totalHours = (endTime.diff(startTime, 'hours'));
-// var totalMinutes = endTime.diff(startTime, 'minutes');
+//https://www.google.com/maps/dir/-15.9088794,+-48.0704406/-15.8055706,+-47.9515193
+
+
 
 
 </script>
