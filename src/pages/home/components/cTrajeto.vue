@@ -20,12 +20,7 @@ const kmFinal = ref('')
 const edtKmIncial = ref()
 const edtKmFinal = ref()
 
-actions.startWatch()
-
 async function iniciaTrajeto() {
-
-    await actions.getGeo();
-
     if (kmInicial.value == '') {
         util.show({
             msg: 'Informe o KM para continuar',
@@ -60,15 +55,6 @@ async function iniciaTrajeto() {
 
 
 async function finalizarTrajeto() {
-
-    await actions.getGeo();
-
-    if (state.latitude.toString() == props.trajeto?.b_latitude) {
-        util.show('Parece que a sua localização é mesma do inicio do trajeto')
-        return
-    }
-
-
     if (kmFinal.value == '') {
         util.show({
             msg: 'Informe o KM para continuar',
@@ -90,7 +76,7 @@ async function finalizarTrajeto() {
         forbidClick: true
     });
 
-    let data = await actions.finalizarTrajeto(kmFinal.value, props.trajeto?.id_router)
+    let data = await actions.finalizarTrajeto(kmFinal.value)
 
     Toast.clear()
 
@@ -98,7 +84,6 @@ async function finalizarTrajeto() {
 
     if (data.msg) {
         actions.getTrajetoAberto()
-        actions.getUltimoTrajeto()
         Toast.success('Rota Finalizada');
     }
 
@@ -109,14 +94,13 @@ async function finalizarTrajeto() {
 
 }
 
-function setKM() {
-    kmInicial.value = state.ultimoTrajeto
-}
 
 
-//https://www.google.com/maps/dir/-15.9088794,+-48.0704406/-15.8055706,+-47.9515193
-
-
+// const time = ref(30 * 60 * 60 * 100);
+// const startTime = moment(props.trajeto?.b_data + ' ' + props.trajeto?.b_hora, 'YYYY-MM-DD hh:mm:ss');
+// const endTime = moment('2021-11-09 11:52:53', 'YYYY-MM-DD hh:mm:ss');
+// var totalHours = (endTime.diff(startTime, 'hours'));
+// var totalMinutes = endTime.diff(startTime, 'minutes');
 
 
 </script>
@@ -149,7 +133,7 @@ function setKM() {
 
                         <van-col class="text-center mt-2" span="24">
                             <span class="fs-12 pr-2">KM Inicial</span>
-                            <label class="fs-20">{{ trajeto?.b_km }}</label>
+                            <label>{{ trajeto?.b_km }}</label>
                         </van-col>
                     </van-row>
 
@@ -158,16 +142,6 @@ function setKM() {
             </van-col>
             <van-col span="24">
                 <div v-show="!trajeto?.b_data" class="text-center">
-                    <van-button
-                        round
-                        plain
-                        hairline
-                        type="primary"
-                        size="small"
-                        class="mb-3 px-5"
-                        @click="setKM"
-                    >Último KM {{ state.ultimoTrajeto }}</van-button>
-
                     <van-cell-group inset>
                         <van-field
                             ref="edtKmIncial"
@@ -178,14 +152,8 @@ function setKM() {
                         />
                     </van-cell-group>
 
-                    <van-button
-                        :disabled="state.btnGeo"
-                        @click="iniciaTrajeto()"
-                        round
-                        type="primary"
-                        class="mt-5"
-                    >
-                        <mdicon name="routes" class="pr-2" />Iniciar Trajeto
+                    <van-button @click="iniciaTrajeto()" round type="primary" class="mt-5">
+                        <mdicon name="routes" />Iniciar Trajeto
                     </van-button>
                 </div>
 
@@ -200,13 +168,7 @@ function setKM() {
                         />
                     </van-cell-group>
 
-                    <van-button
-                        :disabled="state.btnGeo"
-                        @click="finalizarTrajeto()"
-                        round
-                        type="success"
-                        class="mt-5"
-                    >
+                    <van-button @click="finalizarTrajeto()" round type="success" class="mt-5">
                         <mdicon class="mr-3" name="office-building-marker-outline" />Finalizar Trajeto
                     </van-button>
                 </div>
@@ -214,8 +176,7 @@ function setKM() {
         </van-row>
         <van-row>
             <van-col span="24">
-                <div class="t-inf text-center">
-                    <!-- <van-loading v-show="state.loadGEO" color="#1989fa" /> -->
+                <div class="t-inf">
                     <van-row>
                         <van-col class="text-center" span="12">
                             <span class="fs-12 pr-2">Latitude:</span>
@@ -252,14 +213,7 @@ function setKM() {
 </style>
 
 <style>
-.tMain .van-field__control {
-    font-size: 29px;
-}
 .van-popup--center {
     left: 0 !important;
-}
-
-.tMain .van-field__label {
-    padding-top: 5px;
 }
 </style>

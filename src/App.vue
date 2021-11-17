@@ -12,16 +12,11 @@ let deferredPrompt: null
 nextTick(() => {
 
   window.onfocus = () => {
-
-    homeState.actions.getGeo()
-
-    if (loginStore.state.auth)
-      if (loginStore.state.mobile)
-        homeState.actions.getTrajetoAberto()
+    homeState.actions.getTrajetoAberto()
   }
 
   window.addEventListener("appinstalled", () => {
-    console.log("a2hs installed, --");
+    console.log("a2hs installed");
   });
 
 

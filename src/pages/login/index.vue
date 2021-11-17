@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { actions, state } from "./login";
-import globalStore from "@/globalStore";
+
 // console.log(state);
 // legal
 
 </script>
 
 <template>
-    <div class="pnVersion">{{ globalStore.state.version }}</div>
     <!-- {{ state }} -->
     <div class="pnLogin">
         <div class="mb-10" style="text-align: center;">
