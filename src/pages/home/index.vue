@@ -9,10 +9,21 @@ import CRotas from './components/cRotas.vue';
 const tabActive = ref('Trajeto');
 const show = ref(false);
 
-onMounted(() => {
-	actions.getTrajetoAberto();
-	actions.getGeo()
+onMounted(async () => {
+
+	if (loginStore.state.auth) {
+		actions.getTrajetoAberto();
+		actions.getUltimoTrajeto()
+	}
+
+	await actions.getGeo()
 })
+
+// function getRotas() {
+// 	console.log(tabActive.value);
+// 	if (tabActive.value == 'Rotas')
+// 		actions.getRotas()
+// }
 
 
 </script>
@@ -30,7 +41,7 @@ onMounted(() => {
 
 	<van-tabbar v-model="tabActive">
 		<van-tabbar-item name="Trajeto" icon="home-o">Trajeto</van-tabbar-item>
-		<van-tabbar-item name="Rotas" icon="search">Rotas</van-tabbar-item>
+		<van-tabbar-item @click="actions.getRotas()" name="Rotas" icon="search">Rotas</van-tabbar-item>
 	</van-tabbar>
 
 	<div style="margin-top: 50px;">
@@ -38,7 +49,7 @@ onMounted(() => {
 			<CTrajeto :trajeto="state.trajeto" />
 		</div>
 		<div v-show="tabActive == 'Rotas'">
-			<CRotas />
+			<CRotas :rotas="state.rotas" />
 		</div>
 	</div>
 

@@ -1,9 +1,9 @@
 {
   "name": "pwa-vue",
-  "version": "0.0.0",
+  "version": "0.0.10",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm version patch && vite build",
     "serve": "vite preview"
   },
   "dependencies": {
