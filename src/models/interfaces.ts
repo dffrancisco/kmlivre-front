@@ -5,3 +5,12 @@ export interface iLogin {
     phone: string;
     token: string;
 }
+
+export interface iUsuario {
+    access: string
+    date_in: string
+    email: string
+    id_user: number
+    name: string
+    phone: string
+}
