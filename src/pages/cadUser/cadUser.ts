@@ -215,7 +215,7 @@ export const actions = {
         }
         let emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (!state.dadosUser.email.match(emailFormat)) {
-            util.show('Email invalido')
+            util.show('Email inválido')
             return false
         }
 
