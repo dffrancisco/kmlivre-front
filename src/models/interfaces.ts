@@ -20,3 +20,13 @@ export interface iTrajeto {
   f_latitude:string;
   f_longitude:string;
 }
+
+export interface iUsuario {
+    access: string
+    date_in: string
+    email: string
+    id_user: number
+    name: string
+    phone: string
+
+}

@@ -11,7 +11,14 @@ let deferredPrompt: null
 
 nextTick(() => {
 
+
   window.onfocus = () => {
+//=======
+// if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+ //   window.onfocus = () => {
+ //     console.log('------onfocus');
+ //   }
+//>>>>>>> main
 
     homeState.actions.getGeo()
 
