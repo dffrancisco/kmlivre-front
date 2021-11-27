@@ -4,20 +4,31 @@ import { nextTick, ref } from "vue";
 import ReloadPWA from "./components/ReloadPWA.vue";
 import { state } from './globalStore'
 import loginStore from '@/pages/login/login'
+import homeState from '@/pages/home/home'
 
 let install = ref(false);
 let deferredPrompt: null
 
 nextTick(() => {
 
-  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
-    window.onfocus = () => {
-      console.log('------onfocus');
-    }
 
+  window.onfocus = () => {
+//=======
+// if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+ //   window.onfocus = () => {
+ //     console.log('------onfocus');
+ //   }
+//>>>>>>> main
+
+    homeState.actions.getGeo()
+
+    if (loginStore.state.auth)
+      if (loginStore.state.mobile)
+        homeState.actions.getTrajetoAberto()
+  }
 
   window.addEventListener("appinstalled", () => {
-    console.log("a2hs installed");
+    console.log("a2hs installed, --");
   });
 
 

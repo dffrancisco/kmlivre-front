@@ -1,38 +1,60 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import globalStore from '@/globalStore';
-import loginStore from "@/pages/login/login"
+import { ref, onMounted } from 'vue'
+import loginStore from '@/pages/login/login'
 import { state, actions } from './home'
 
+import CTrajeto from './components/cTrajeto.vue';
+import CRotas from './components/cRotas.vue';
 
-globalStore.state.title = 'Home'
-
-console.log('veja a rota no servidor');
-
+const tabActive = ref('Trajeto');
 const show = ref(false);
-const showPopup = () => {
-	show.value = true;
-};
+
+onMounted(async () => {
+
+	if (loginStore.state.auth) {
+		actions.getTrajetoAberto();
+		actions.getUltimoTrajeto()
+	}
+
+	await actions.getGeo()
+})
+
+// function getRotas() {
+// 	console.log(tabActive.value);
+// 	if (tabActive.value == 'Rotas')
+// 		actions.getRotas()
+// }
+
 
 </script>
 
 <template>
-	<!-- <van-nav-bar title="Title" left-text="Back" left-arrow @click-left="$" /> -->
-	<van-cell-group inset>
-		<van-field label="Text" placeholder="legal" />
-		<van-field type="tel" label="Phone" />
-		<van-field type="digit" label="Digit" />
-		<van-field type="number" label="Number" />
-		<van-field type="password" label="Password" />
-	</van-cell-group>
+	<van-nav-bar fixed :title="tabActive">
+		<template #right>
+			<mdicon size="30" @click="show = true" name="logout" />
+			<!-- <van-icon name="more-o" /> -->
+		</template>
+	</van-nav-bar>
+	<van-popup v-model:show="show" position="top" round closeable :style="{ height: '30%' }">
+		<van-button class="ma-10" size="small" @click="loginStore.actions.logOut()" type="warning">Sair</van-button>
+	</van-popup>
 
-	<van-cell-group class="mt-2" inset>
-		<van-cell is-link @click="showPopup">Show Popup</van-cell>
-	</van-cell-group>
-	{{ state.latitude }} - {{ state.longitude }}
-	<van-button @click="actions.getGeo()">Geo</van-button>
+	<van-tabbar v-model="tabActive">
+		<van-tabbar-item name="Trajeto" icon="home-o">Trajeto</van-tabbar-item>
+		<van-tabbar-item @click="actions.getRotas()" name="Rotas" icon="search">Rotas</van-tabbar-item>
+	</van-tabbar>
 
-	<van-button class="ma-10" size="small" @click="loginStore.actions.logOut()" type="warning">Sair</van-button>
+	<div style="margin-top: 50px;">
+		<div v-show="tabActive == 'Trajeto'">
+			<CTrajeto :trajeto="state.trajeto" />
+		</div>
+		<div v-show="tabActive == 'Rotas'">
+			<CRotas :rotas="state.rotas" />
+		</div>
+	</div>
+
+	<!-- <van-button @click="actions.getGeo()">Geo</van-button> -->
+	<!-- <van-button class="ma-10" size="small" @click="loginStore.actions.logOut()" type="warning">Sair</van-button> -->
 </template>
 
 

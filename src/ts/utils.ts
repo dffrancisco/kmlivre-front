@@ -8,7 +8,7 @@ export const formatValor = (num: string): number | string => {
     return num.replace('.', ',').replace(/(\d)(?=(\d{3})+,)/g, "$1.");
 }
 
-export const dataBrasil = (data: string): string => {
+export const dataBrasil = (data: string | any): string => {
     let separador: any;
     if (data != null && data != '') {
         if (data.trim() === '') {

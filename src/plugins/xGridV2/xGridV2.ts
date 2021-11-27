@@ -1,13 +1,50 @@
+// eslint-disable-next-line no-unused-vars
 export default (function () {
-    // eslint-disable-next-line no-unused-vars
-    // let xGridV2 = (function () {
-    const version = 2.2;
+    const version = 2.0;
     const state = { save: 'save', insert: 'insert', update: 'update', select: 'select', cancel: 'cancel', delete: 'delete' }
     let notFound = 'Nada Localizado'
-    let theme = 'x-grayV2'
     let printHead = '';
 
-    function create(param) {
+    interface iFilter {
+        filterBegin?: false, //quando true ele pesquisa igual a palavra
+        fields?: false,
+        conditional?: 'OR'
+    }
+
+    interface iGrid {
+        el: string
+        source?: []
+        filter?: iFilter
+        columns?: {},
+        onSelectLine?: false,
+        compare?: {},
+        heightLine?: false,
+        height?: 'default',
+        width?: 'default',
+        setfocus?: false,
+        multiSelect?: false,
+        render?: {},
+        theme?: 'x-grayV2',
+        query?: {
+            endScroll?: 0.1,
+            execute?: false,
+        },
+        afterSearch?: false,
+        sideBySide?: false,
+        click?: false,
+        dblClick?: false,
+        enter?: false,
+        frame?: false,
+        complete?: false,
+        keyDown?: false,
+        count?: false,
+        title?: true,
+        keySelectUp?: false,
+        keySelectDown?: false,
+    }
+
+
+    function create(param: iGrid) {
         let argDefault = {
             source: [],
             filter: {
@@ -19,7 +56,7 @@ export default (function () {
             onSelectLine: false,
             compare: {},
             heightLine: false,
-            height: '100%',
+            height: 'default',
             width: 'default',
             setfocus: false,
             multiSelect: false,
@@ -73,13 +110,10 @@ export default (function () {
                 this.element = document.querySelector(this.arg.el)
                 this.idElment = this.element.id
                 this.element.classList.add("xGridV2-main");
-                this.element.classList.add(this.arg.theme ? this.arg.theme : theme);
+                this.element.classList.add(this.arg.theme);
 
-                // let pxHeight = this.arg.height.toString().indexOf('%') > 0 ? '' : 'px'
-                let pxHeight = this.arg.height.toString().indexOf('%') > 0 ? '' : this.arg.height.toString().indexOf('px') > 0 ? '' : 'px'
-                let pxWidth = this.arg.width.toString().indexOf('%') > 0 ? '' : this.arg.width.toString().indexOf('px') > 0 ? '' : 'px'
-                this.element.style.height = this.arg.height != '100%' ? this.arg.height + pxHeight : this.arg.height
-                if (this.arg.width != 'default') this.element.style.width = this.arg.width + pxWidth
+                if (this.arg.height != 'default') this.element.style.height = `${this.arg.height}px`
+                if (this.arg.width != 'default') this.element.style.width = `${this.arg.width}px`
 
                 this.element.appendChild(this.createTitle())
                 this.element.appendChild(this.setContent())
@@ -224,9 +258,6 @@ export default (function () {
                 this.setTitle(source)
 
                 this.tabindex = 0
-                this.indexSelect = 0
-                this.page = 1
-                this.sourceSelect = false
                 this.gridContent.scrollTop = 0
 
                 this.createLine(source)
@@ -652,10 +683,7 @@ export default (function () {
 
                             }
                         }
-                        if (cell.innerHTML)
-                            cell.innerHTML = _value
-                        if (cell.value)
-                            cell.value = _value
+                        cell.innerHTML = _value
                     }
                 }
 
@@ -679,9 +707,6 @@ export default (function () {
                 if (this.gridDisable)
                     return false
 
-                if (Object.keys(this.arg.source).length == 0)
-                    return false
-
                 if (Object.keys(this.sourceSelect).length > 0) {
                     if (numLine == undefined) {
                         this.gridContent.querySelector('[tabindex="' + this.indexSelect + '"]').focus()
@@ -701,19 +726,17 @@ export default (function () {
             },
             disable(call) {
                 this.onEvent.divDisable[0] = document.createElement('div')
-                // this.onEvent.divDisable[1] = document.createElement('div')
+                this.onEvent.divDisable[1] = document.createElement('div')
                 this.onEvent.divDisable[0].classList.add('xGridV2-disable')
-                // this.onEvent.divDisable[1].classList.add('xGridV2-disable')
+                this.onEvent.divDisable[1].classList.add('xGridV2-disable')
 
                 this.onEvent.removeEventListener()
 
                 if (this.widthAll > 100)
                     this.element.style.overflow = 'hidden'
 
-                // this.gridContent.insertBefore(this.onEvent.divDisable[0], this.gridContent.firstChild)
-                // this.gridTitle.insertBefore(this.onEvent.divDisable[1], this.gridTitle.firstChild)
-
-                this.element.insertBefore(this.onEvent.divDisable[0], this.element.firstChild)
+                this.gridContent.insertBefore(this.onEvent.divDisable[0], this.gridContent.firstChild)
+                this.gridTitle.insertBefore(this.onEvent.divDisable[1], this.gridTitle.firstChild)
 
                 this.gridDisable = true
 
@@ -723,7 +746,7 @@ export default (function () {
             enable(call) {
                 if (this.onEvent.divDisable[0]) {
                     this.onEvent.divDisable[0].remove()
-                    // this.onEvent.divDisable[1].remove()
+                    this.onEvent.divDisable[1].remove()
 
                     this.onEvent.setEventListenerAll()
 
@@ -908,33 +931,6 @@ export default (function () {
             setElementSideBySide() {
                 if (this.arg.sideBySide) {
 
-                    if (this.arg.sideBySide.vModel) {
-
-                        for (let i in this.arg.sideBySide.vModel) {
-                            let value = this.sourceSelect[i];
-
-                            if (this.arg.sideBySide.render)
-                                if (this.arg.sideBySide.render[i])
-                                    try {
-                                        value = this.arg.sideBySide.render[i](value)
-                                    } catch (error) { throw 'erro see your function render' }
-
-
-                            if (this.arg.sideBySide.compare)
-                                if (this.arg.compare[this.arg.sideBySide.compare[i]])
-                                    try {
-                                        let _source = { ...this.sourceSelect }
-                                        _source.value = value
-                                        value = this.arg.compare[this.arg.sideBySide.compare[i]](_source)
-                                    } catch (error) { throw 'erro see your function compare' }
-
-
-
-                            this.arg.sideBySide.vModel[i] = value
-                        }
-
-                    }
-
                     if (this.arg.sideBySide.el)
                         for (let i in this.elementSideBySide) {
 
@@ -1004,37 +1000,19 @@ export default (function () {
             },
             getDiffTwoJson(toUpperCase = false, empty = true) {
                 let diff = { old: {}, new: {} }
+                let fieldsSideBySide = this.getElementSideBySideJson(toUpperCase, empty)
 
-                if (this.arg.sideBySide.vModel) {
-                    for (let i in this.arg.sideBySide.vModel) {
-                        if (this.arg.sideBySide.vModel[i] != this.sourceSelect[i]) {
-                            diff.old[i] = this.sourceSelect[i]
-                            diff.new[i] = this.arg.sideBySide.vModel[i];
-                        }
+                for (let i in fieldsSideBySide) {
+                    if (fieldsSideBySide[i] != this.sourceSelect[i]) {
+                        diff.old[i] = this.sourceSelect[i]
+                        diff.new[i] = fieldsSideBySide[i];
                     }
-                } else {
-
-                    let fieldsSideBySide = this.getElementSideBySideJson(toUpperCase, empty)
-
-                    for (let i in fieldsSideBySide) {
-                        if (fieldsSideBySide[i] != this.sourceSelect[i]) {
-                            diff.old[i] = this.sourceSelect[i]
-                            diff.new[i] = fieldsSideBySide[i];
-                        }
-                    }
-
                 }
 
                 return diff
+
             },
             clearElementSideBySide() {
-
-                if (this.arg.sideBySide.vModel) {
-                    for (let i in this.arg.sideBySide.vModel) {
-                        this.arg.sideBySide.vModel[i] = ''
-                    }
-                }
-
                 if (this.arg.sideBySide)
                     if (this.arg.sideBySide.el)
                         for (let i in this.elementSideBySide) {
@@ -1108,7 +1086,7 @@ export default (function () {
                             this.arg.sideBySide.frame.class.split(' ').forEach((e) => elFrame.classList.add(e))
 
 
-                        if (this.arg.sideBySide.frame.buttons) {
+                        if (this.arg.sideBySide.frame.buttons)
                             for (let key in this.arg.sideBySide.frame.buttons) {
                                 // if (key == 'el' || key == 'style' || key == 'class')
                                 //     continue
@@ -1118,8 +1096,8 @@ export default (function () {
                                 btn.innerHTML = this.arg.sideBySide.frame.buttons[key].html
 
                                 if (this.arg.sideBySide.frame.buttons[key].click)
-                                    btn.addEventListener('click', async (e) => {
-                                        if (await ax.arg.sideBySide.frame.buttons[key].click(this.sourceSelect, e) == false) return false
+                                    btn.addEventListener('click', (e) => {
+                                        if (ax.arg.sideBySide.frame.buttons[key].click(this.sourceSelect, e) == false) return false
 
                                         if ([state.insert, state.update].indexOf(e.target.getAttribute('state')) >= 0) {
                                             this.disableFieldsSideBySide(true)
@@ -1149,9 +1127,8 @@ export default (function () {
                                 this.buttonsFrame[key] = btn
 
                                 elFrame.appendChild(btn)
+                                ax.disableFieldsSideBySide(true)
                             }
-                            ax.disableFieldsSideBySide(true)
-                        }
                     }
             },
             duplicity() {
@@ -1172,10 +1149,6 @@ export default (function () {
                                     else
                                         if (this.elementSideBySide[field].getAttribute('placeholder'))
                                             text = this.elementSideBySide[field].getAttribute('placeholder')
-                                        else
-                                            if (this.elementSideBySide[field].getAttribute('label'))
-                                                text = this.elementSideBySide[field].getAttribute('label')
-
 
                                     this.arg.sideBySide.duplicity.execute({
                                         field: field,
@@ -1194,53 +1167,21 @@ export default (function () {
                 document.body.appendChild(this.messageDuplicity)
             },
             getDuplicityAll() {
-                // eslint-disable-next-line
-                return new Promise(async (res, rej) => {
-                    // return new Promise((res, rej) => {
-                    try {
-                        for (let i in this.arg.sideBySide.duplicity.dataField) {
-                            let field = this.arg.sideBySide.duplicity.dataField[i]
-                            let text = ''
-                            if (this.sourceSelect[field] != this.elementSideBySide[field].value) {
+                let that = true;
 
-                                if (this.elementSideBySide[field].previousSibling.previousElementSibling)
-                                    text = this.elementSideBySide[field].previousSibling.previousElementSibling.innerText
-                                else
-                                    if (this.elementSideBySide[field].getAttribute('placeholder'))
-                                        text = this.elementSideBySide[field].getAttribute('placeholder')
-                                    else
-                                        if (this.elementSideBySide[field].getAttribute('label'))
-                                            text = this.elementSideBySide[field].getAttribute('label')
+                for (let i in this.arg.sideBySide.duplicity.dataField) {
+                    let field = this.arg.sideBySide.duplicity.dataField[i]
 
-                                // tive que comentar esse codigo porque o eslite não estava aceitando
-                                let r = await this.arg.sideBySide.duplicity.execute({
-                                    field: field,
-                                    value: this.elementSideBySide[field].value.trim(),
-                                    //text: this.elementSideBySide[field].previousSibling.previousElementSibling.innerText
-                                    text: text
-                                })
-                                return res(r)
-
-                                // this.arg.sideBySide.duplicity.execute({
-                                //     field: field,
-                                //     value: this.elementSideBySide[field].value.trim(),
-                                //     //text: this.elementSideBySide[field].previousSibling.previousElementSibling.innerText
-                                //     text: text
-                                // }).then(r => {
-                                //     return res(r)
-                                // })
-
-
-
-                            }
-                        }
-
-                        res(false)
-
-                    } catch (error) {
-                        rej(error)
+                    if (this.sourceSelect[field] != this.elementSideBySide[field].value) {
+                        that = this.arg.sideBySide.duplicity.execute({
+                            field: field,
+                            value: this.elementSideBySide[field].value.trim(),
+                            text: this.elementSideBySide[field].previousSibling.previousElementSibling.innerText
+                        })
+                        return false
                     }
-                })
+                }
+                return that
             },
             tabToEnter(name) {
 
@@ -1264,37 +1205,16 @@ export default (function () {
                 }
             },
             focusField(name) {
-
-                if (this.arg.sideBySide.vRefs) {
-                    if (name == undefined) {
-                        let index = Object.keys(this.arg.sideBySide.vRefs)[0]
-                        let element = this.arg.sideBySide.vRefs[index].$el.querySelector("input");
-                        setTimeout(() => {
-                            element.focus()
-                            element.select()
-                        }, 100);
-                    } else {
-                        let element = this.arg.sideBySide.vRefs[name].$el.querySelector("input");
-                        setTimeout(() => {
-                            element.focus()
-                            element.select()
-                        }, 100);
-                    }
-
-                } else {
-
-                    if (name == undefined) {
-                        if (this.listTabForEnter[0].tagName == 'BUTTON' || this.listTabForEnter[0].tagName == 'SELECT')
-                            this.listTabForEnter[0].focus()
-                        else
-                            this.listTabForEnter[0].select()
-                    } else
-                        if (this.elementSideBySide[name].tagName == 'BUTTON' || this.elementSideBySide[name].tagName == 'SELECT')
-                            this.elementSideBySide[name].focus()
-                        else
-                            this.elementSideBySide[name].select()
-                }
-
+                if (name == undefined) {
+                    if (this.listTabForEnter[0].tagName == 'BUTTON' || this.listTabForEnter[0].tagName == 'SELECT')
+                        this.listTabForEnter[0].focus()
+                    else
+                        this.listTabForEnter[0].select()
+                } else
+                    if (this.elementSideBySide[name].tagName == 'BUTTON' || this.elementSideBySide[name].tagName == 'SELECT')
+                        this.elementSideBySide[name].focus()
+                    else
+                        this.elementSideBySide[name].select()
             },
             disableBtnsSaveCancel(disabled = true) {
 
@@ -1309,56 +1229,7 @@ export default (function () {
                         }
                     }
             },
-
             disableFieldsSideBySide(disable = false) {
-                // console.log(this.arg.sideBySide.vRefs, disable);
-
-                if (this.arg.sideBySide.vRefs) {
-
-                    for (let i in this.arg.sideBySide.vRefs) {
-                        // this.arg.sideBySide.vRefs[i].disabled = disable
-                        let element = this.arg.sideBySide.vRefs[i].$el.querySelector("input");
-
-                        // this.arg.sideBySide.vRefs['old'].$el.disabled = !disable
-
-                        // console.log(this.arg.sideBySide.vRefs[i].$el)
-                        console.log(element);
-
-                        let type = element.type
-
-                        switch (type) {
-                            case 'text':
-                            case 'password':
-                            case 'textarea':
-                            case 'number':
-                            case 'tel':
-                            case 'date':
-                            case 'time':
-                            case 'range':
-                            case 'hidden':
-                                element.readOnly = disable
-                                // element.disabled = disable
-                                break;
-                            case 'radio':
-                                // eslint-disable-next-line no-case-declarations
-                                let radios = { ...element }
-                                delete radios.type
-                                for (let r in radios) {
-                                    radios[r].disabled = disable
-                                    break
-                                }
-                                break;
-                            case 'select-one':
-                                element.disabled = disable
-                                break;
-                            case 'checkbox':
-                                element.disabled = disable
-                                break;
-
-                        }
-                    }
-
-                }
 
                 for (let i in this.elementSideBySide) {
                     let type = this.elementSideBySide[i].type
@@ -1393,7 +1264,6 @@ export default (function () {
 
                     }
                 }
-
             },
             resizeTitle(resizers) {
                 let fieldTitle
@@ -1701,16 +1571,8 @@ export default (function () {
 
         this.setFilterconditional = (conditional) => ax.setFilterconditional(conditional)
 
+    }
 
-    }
-    function changeTheme(_theme) {
-        theme = _theme;
-        let el = [...document.querySelectorAll('.xGridV2-main')];
-        for (let i in el) {
-            el[i].classList = 'xGridV2-main';
-            el[i].classList.add(_theme);
-        }
-    }
     return {
         create: create,
         state: state,
@@ -1719,7 +1581,5 @@ export default (function () {
         getNotFound: () => notFound,
         getPrintHead: () => printHead,
         setPrintHead: (html) => { printHead = html },
-        setTheme: (_theme) => { theme = _theme; },
-        changeTheme: changeTheme,
     }
 })();
