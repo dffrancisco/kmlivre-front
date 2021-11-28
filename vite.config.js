@@ -25,6 +25,7 @@ export default defineConfig({
             filename: "sw.ts",
             includeAssets: ["icon/icon-km-512.png"],
             strategies: "injectManifest",
+            registerType: 'autoUpdate',
             manifest: {
                 name: "KM Livre",
                 short_name: "KmLivre",
