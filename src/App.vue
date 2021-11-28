@@ -12,20 +12,28 @@ let deferredPrompt: null
 nextTick(() => {
 
 
-  window.onfocus = () => {
-//=======
-// if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
- //   window.onfocus = () => {
- //     console.log('------onfocus');
- //   }
-//>>>>>>> main
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+    window.onfocus = () => {
 
-    homeState.actions.getGeo()
+      homeState.actions.getGeo()
 
-    if (loginStore.state.auth)
-      if (loginStore.state.mobile)
-        homeState.actions.getTrajetoAberto()
-  }
+      if (loginStore.state.auth)
+        if (loginStore.state.mobile)
+          homeState.actions.getTrajetoAberto()
+    }
+
+
+  window.addEventListener('push', e => {
+    const data = e.data.json();
+    console.log(data)
+    console.log('Notification Received');
+    window.registration.showNotification(data.title, {
+      body: data.message,
+      icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Archlinux-icon-crystal-64.svg/1024px-Archlinux-icon-crystal-64.svg.png'
+    });
+  });
+
+
 
   window.addEventListener("appinstalled", () => {
     console.log("a2hs installed, --");
