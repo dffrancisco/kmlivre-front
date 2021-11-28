@@ -4,9 +4,8 @@
       <van-popup v-model="offlineReady">App ready to work offline</van-popup>
       <span v-if="offlineReady">App ready to work offline</span>
       <span v-else>New content available, click on reload button to update.</span>
+      <button v-if="needRefresh" @click="updateServiceWorker()">Reload</button>
     </div>
-
-    <button v-if="needRefresh" @click="updateServiceWorker()">Reload</button>
 
     <van-popup class="p-reload rounded" v-model:show="needRefresh">
       <h3>Nova atualização disponível, click para atualizar.</h3>
@@ -36,7 +35,7 @@ export default defineComponent({
       needRefresh.value = false;
     };
 
-    // needRefresh.value = true;
+    needRefresh.value = true;
 
     return { offlineReady, needRefresh, updateServiceWorker, close };
   },
@@ -55,6 +54,15 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+.message {
+  position: absolute;
+  top: 0;
+  height: 50px;
+  width: 300px;
+  z-index: 30000;
+  // background: red;
+}
+
 .p-reload {
   text-align: center;
   padding: 15px;
