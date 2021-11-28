@@ -37,7 +37,8 @@ export const actions = {
         // Service Worker
         console.log("Registering a Service worker");
 
-        const register = await navigator.serviceWorker.register("/worker_push_notification.js", {
+        // const register = await navigator.serviceWorker.register("/worker_push_notification.js", {
+        const register = await navigator.serviceWorker.register("/src/sw.ts", {
             scope: "/"
         });
 
