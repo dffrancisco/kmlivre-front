@@ -18,12 +18,12 @@ self.addEventListener('push', e => {
     vibrate: [200, 50, 200],
     icon: './icon/icon-km-128.png',
     badge: './icon/icon-km-128.png',
-    image: './screen.jpg',
-    tag: 'new-offers',
-    renotify: true,
-    actions: [
-      { action: 'confirm', title: 'Check offer', icon: '' },
-    ],
+    // image: './screen.jpg',
+    // tag: 'new-offers',
+    // renotify: true,
+    // actions: [
+    //   { action: 'confirm', title: 'Check offer', icon: '' },
+    // ],
   });
 
 });

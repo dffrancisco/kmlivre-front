@@ -67,7 +67,11 @@ onMounted(async () => {
 	<!-- <van-button class="ma-10" size="small" @click="loginStore.actions.logOut()" type="warning">Sair</van-button> -->
 </template>
 
-
+<style scoped>
+.van-nav-bar {
+	background: #c3cfe2;
+}
+</style>
 
 <route>
   {
