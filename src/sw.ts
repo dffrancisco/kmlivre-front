@@ -15,25 +15,32 @@ self.addEventListener('push', e => {
 
   self.registration.showNotification(data.title, {
     body: data.message,
-    vibrate: [100, 50, 100],
+    vibrate: [200, 50, 200],
     icon: './icon/icon-km-128.png',
     badge: './icon/icon-km-128.png',
-    image: './icon/icon-km-128.png',
+    image: './screen.jpg',
+    tag: 'new-offers',
+    renotify: true,
+    actions: [
+      { action: 'confirm', title: 'Check offer', icon: '' },
+    ],
   });
 
 });
 
 self.addEventListener('notificationclick', event => {
+  //@ts-ignore
   const rootUrl = new URL('/', location).href;
   event.notification.close();
-  // Enumerate windows, and call window.focus(), or open a new one.
   event.waitUntil(
+    //@ts-ignore
     clients.matchAll().then(matchedClients => {
       for (let client of matchedClients) {
         if (client.url === rootUrl) {
           return client.focus();
         }
       }
+      //@ts-ignore
       return clients.openWindow("/");
     })
   );

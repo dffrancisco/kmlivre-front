@@ -12,9 +12,9 @@ export const state = reactive({
         token: '',
         in: false,
     },
-    endpoint: 'https://fcm.googleapis.com/fcm/send/crCwkyJe3RQ:APA91bGpevg8kW9fvNO5EYDzbdYEpWMgjDvjARdedYj8hAmUm2WHf_kQughB1DAzoQC3f6rFkIapbdnQ2_NVPQ2F16MXuEMgL5dsOrq7Xch3Z_3YzOe3Yc5CIbLrvAbL95Z1HkgjccYJ',
-    p256dh: 'BPwNYMDXhDxHAmmdYmuEBfp8z-zf-ZmWuN8JzwhAYF1VngmMHEw5DIU__RnV3kTHXrjSCOGFC5v0ldFWEAiDBV4',
-    auth: 'MqteZ_6ItBNt-oaSf3nTAA'
+    endpoint: 'https://fcm.googleapis.com/fcm/send/fmfVw29WEW4:APA91bFqpU0wFk7I69kvgEzmpSBkGV_nDB1wD7CzpGQ70KIV0CAv9pyQf3jZ-U2aYgULmsAV866LAJaTyEglMXGqRnJiAJ0o-8AzWC5Q3mf7nThvgAvjdKr6cNio18ilUae5U870EOLQ',
+    p256dh: 'BNenKLUFLy2Hea0LYNh_6NFxjWa3grYm2GMjZLXY-3xJ-P5shUo3C85QnShtD_BJXl2C-Au7_3EBY-PjhxrocTs',
+    auth: 'ndgmQgzCl6lbLuKe3uBzPg'
 
 })
 
