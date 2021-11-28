@@ -38,9 +38,9 @@ export default defineConfig({
                 "categories": ["Office"],
                 "screenshots": [
                     {
-                        "src": "screen.png",
+                        "src": "screen.jpg",
                         "sizes": "1104x1104",
-                        "type": "image/png"
+                        "type": "image/jpg"
                     }
                 ],
                 icons: [
