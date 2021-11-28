@@ -1,7 +1,6 @@
 import { reactive } from "vue";
 import version from '../package.json'
 import axios from "axios";
-import path from 'path'
 
 const PUBLIC_VAPID_KEY = "BLZ6YykpVIP-zawW74FftJaQi8QDPCDSGhsWlke2OEHRZAh7jN8d-HkDH_OmQzwn42zVhM0vkdvda1Dh-Dmmjf4";
 
@@ -13,9 +12,9 @@ export const state = reactive({
         token: '',
         in: false,
     },
-    endpoint: 'https://fcm.googleapis.com/fcm/send/cUjyO8I_DUo:APA91bGYIcyq5AwgJcDOiesZTNJKGtxnOwcVuotbLbelmunKl90_q8yseVxHFWY6uB_bzPHMoOl0vRobuG6ZSlpHf28MWDHy_xA6CGPuL42ht-GBQC6zUMCiBsbiH7Q1JmVgIj4_hW5l',
-    p256dh: 'BPn6aQ_zlA2Ei-Q-fLfuomqFKpqX1GXc2hITq3dHwggJ5e0Y2LpqmJKYzSqxE8i97j1VOACTFmB5sv7WhU0Xi7Y',
-    auth: 'pfmEt28WJpA22LPCBT3fOw'
+    endpoint: 'https://fcm.googleapis.com/fcm/send/crCwkyJe3RQ:APA91bGpevg8kW9fvNO5EYDzbdYEpWMgjDvjARdedYj8hAmUm2WHf_kQughB1DAzoQC3f6rFkIapbdnQ2_NVPQ2F16MXuEMgL5dsOrq7Xch3Z_3YzOe3Yc5CIbLrvAbL95Z1HkgjccYJ',
+    p256dh: 'BPwNYMDXhDxHAmmdYmuEBfp8z-zf-ZmWuN8JzwhAYF1VngmMHEw5DIU__RnV3kTHXrjSCOGFC5v0ldFWEAiDBV4',
+    auth: 'MqteZ_6ItBNt-oaSf3nTAA'
 
 })
 
