@@ -1,12 +1,12 @@
 <template>
   <div v-if="!offlineReady || needRefresh">
-    <!-- <div class="message mt-1"> -->
-    <!-- <van-popup v-model="offlineReady">App ready to work offline</van-popup> -->
-    <!-- <span v-if="offlineReady">App ready to work offline</span> -->
-    <!-- <span v-else>New content available, click on reload button to update.</span> -->
-    <!-- </div> -->
+    <div class="message mt-1">
+      <van-popup v-model="offlineReady">App ready to work offline</van-popup>
+      <span v-if="offlineReady">App ready to work offline</span>
+      <span v-else>New content available, click on reload button to update.</span>
+    </div>
 
-    <!-- <button v-if="needRefresh" @click="updateServiceWorker()">Reload</button> -->
+    <button v-if="needRefresh" @click="updateServiceWorker()">Reload</button>
 
     <van-popup class="p-reload rounded" v-model:show="needRefresh">
       <h3>Nova atualização disponível, click para atualizar.</h3>
