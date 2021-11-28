@@ -26,9 +26,9 @@ export default defineConfig({
             includeAssets: ["icon/icon-km-512.png"],
             strategies: "injectManifest",
             registerType: 'autoUpdate',
-            lang: "pt-br",
             manifest: {
                 name: "KM Livre",
+                lang: "pt-br",
                 short_name: "KmLivre",
                 start_url: "./",
                 display: "standalone",
