@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 //@ts-ignore
 import { useRegisterSW } from "virtual:pwa-register/vue";
 const { updateServiceWorker } = useRegisterSW();
@@ -28,6 +28,8 @@ export default defineComponent({
   setup() {
 
     const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW();
+
+    console.log(offlineReady.value, needRefresh.value);
 
     const close = async () => {
       offlineReady.value = false;
@@ -39,10 +41,12 @@ export default defineComponent({
     return { offlineReady, needRefresh, updateServiceWorker, close };
   },
   methods: {
+
     async close() {
       this.offlineReady.value = false;
       this.needRefresh.value = false;
     },
+
     async updateServiceWorker() {
       await updateServiceWorker();
     },
@@ -53,7 +57,6 @@ export default defineComponent({
 <style lang="scss">
 .p-reload {
   text-align: center;
-  // width: 200px;
   padding: 15px;
 }
 </style>
