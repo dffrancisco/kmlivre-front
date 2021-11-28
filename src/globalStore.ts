@@ -1,6 +1,7 @@
 import { reactive } from "vue";
 import version from '../package.json'
 import axios from "axios";
+import path from 'path'
 
 const PUBLIC_VAPID_KEY = "BLZ6YykpVIP-zawW74FftJaQi8QDPCDSGhsWlke2OEHRZAh7jN8d-HkDH_OmQzwn42zVhM0vkdvda1Dh-Dmmjf4";
 
@@ -38,7 +39,8 @@ export const actions = {
         console.log("Registering a Service worker");
 
         // const register = await navigator.serviceWorker.register("/worker_push_notification.js", {
-        const register = await navigator.serviceWorker.register("/src/sw.ts", {
+
+        const register = await navigator.serviceWorker.register('/sw.js', {
             scope: "/"
         });
 
