@@ -35,7 +35,7 @@ export default defineComponent({
       needRefresh.value = false;
     };
 
-    needRefresh.value = true;
+    // needRefresh.value = true;
 
     return { offlineReady, needRefresh, updateServiceWorker, close };
   },
