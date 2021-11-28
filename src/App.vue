@@ -1,8 +1,8 @@
 
 <script setup lang="ts">
-import { nextTick, ref } from "vue";
+import { nextTick, ref, onMounted } from "vue";
 import ReloadPWA from "./components/ReloadPWA.vue";
-import { state } from './globalStore'
+import { state, actions } from './globalStore'
 import loginStore from '@/pages/login/login'
 import homeState from '@/pages/home/home'
 
@@ -21,18 +21,6 @@ nextTick(() => {
         if (loginStore.state.mobile)
           homeState.actions.getTrajetoAberto()
     }
-
-
-  window.addEventListener('push', e => {
-    const data = e.data.json();
-    console.log(data)
-    console.log('Notification Received');
-    window.registration.showNotification(data.title, {
-      body: data.message,
-      icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Archlinux-icon-crystal-64.svg/1024px-Archlinux-icon-crystal-64.svg.png'
-    });
-  });
-
 
 
   window.addEventListener("appinstalled", () => {
@@ -79,6 +67,12 @@ const installApp = () => {
     deferredPrompt = null;
   });
 }
+
+onMounted(async () => {
+
+  await actions.subscription()
+
+})
 
 </script>
 

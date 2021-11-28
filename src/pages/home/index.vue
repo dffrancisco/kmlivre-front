@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import loginStore from '@/pages/login/login'
 import { state, actions } from './home'
+import globalStore from '@/globalStore';
 
 import CTrajeto from './components/cTrajeto.vue';
 import CRotas from './components/cRotas.vue';
@@ -37,6 +38,15 @@ onMounted(async () => {
 	</van-nav-bar>
 	<van-popup v-model:show="show" position="top" round closeable :style="{ height: '30%' }">
 		<van-button class="ma-10" size="small" @click="loginStore.actions.logOut()" type="warning">Sair</van-button>
+		<div class="text-center">
+			<input v-model="globalStore.state.endpoint" type="text" />
+			<br />
+			<input v-model="globalStore.state.p256dh" type="text" />
+			<br />
+			<input v-model="globalStore.state.auth" type="text" />
+			<br />
+			<van-button @click="globalStore.actions.receberMsg()">Receber mensagem</van-button>
+		</div>
 	</van-popup>
 
 	<van-tabbar v-model="tabActive">
