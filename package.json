@@ -1,6 +1,6 @@
 {
   "name": "pwa-vue",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "scripts": {
     "dev": "vite",
     "build": "npm version patch && vite build",
