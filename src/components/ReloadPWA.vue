@@ -1,19 +1,20 @@
 <template>
-  <div v-if="!offlineReady || needRefresh">
+  <div v-if="offlineReady || needRefresh">
     <div class="message mt-1">
       <van-popup v-model="offlineReady">App ready to work offline</van-popup>
       <span v-if="offlineReady">App ready to work offline</span>
       <span v-else>New content available, click on reload button to update.</span>
-      <button v-if="needRefresh" @click="updateServiceWorker()">Reload</button>
     </div>
 
-    <van-popup class="p-reload rounded" v-model:show="needRefresh">
-      <h3>Nova atualização disponível, click para atualizar.</h3>
-      <van-button round @click="updateServiceWorker()" class="mt-5 px-15" type="primary">Atualizar</van-button>
-    </van-popup>
-
-    <!-- <button @click="close">Close </button>-->
+    <button v-if="needRefresh" @click="updateServiceWorker()">Reload</button>
   </div>
+
+  <van-popup class="p-reload rounded" v-model:show="needRefresh">
+    <h3>Nova atualização disponível, click para atualizar.</h3>
+    <van-button round @click="updateServiceWorker()" class="mt-5 px-15" type="primary">Atualizar</van-button>
+  </van-popup>
+
+  <!-- <button @click="close">Close </button>-->
 </template>
 
 <script lang="ts">
@@ -39,6 +40,7 @@ export default defineComponent({
 
     return { offlineReady, needRefresh, updateServiceWorker, close };
   },
+
   methods: {
 
     async close() {
