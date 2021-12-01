@@ -71,7 +71,7 @@ export const actions = {
     receberMsg() {
         axios.post('/pushNotification', {
             call: 'getPayload',
-            id_user: 2
+            id_user: 3
         })
     }
 
