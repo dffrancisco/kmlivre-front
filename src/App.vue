@@ -85,7 +85,7 @@ onMounted(async () => {
 
 
   //@ts-ignore
-  if (import.meta.env.VITE_SERVER == 'https://kmlivre.ddns.net')
+  if (import.meta.env.VITE_SERVER != 'http://localhost')
     await actions.subscription()
 
 })
