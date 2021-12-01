@@ -86,7 +86,8 @@ export const actions = {
 
       // @ts-ignore
       if (import.meta.env.VITE_SERVER != 'http://localhost')
-        await globalStore.actions.subscription()
+        if (state.mobile)
+          await globalStore.actions.subscription()
 
       router.push("/");
     }
