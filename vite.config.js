@@ -21,6 +21,7 @@ export default defineConfig({
         VitePWA({
             // mode: "development",
             base: "./",
+            start_url: "./",
             srcDir: "src",
             filename: "sw.ts",
             includeAssets: ["icon/icon-km-512.png"],
@@ -30,7 +31,6 @@ export default defineConfig({
                 name: "KM Livre",
                 lang: "pt-br",
                 short_name: "KmLivre",
-                start_url: "./",
                 display: "standalone",
                 background_color: "#c3cfe2",
                 "theme_color": "#c3cfe2",

@@ -12,7 +12,7 @@ import globalStore from "@/globalStore";
     <div class="pnLogin">
         <div class="mb-10" style="text-align: center;">
             <img src="../../../public/icon/icon-km-128.png" />
-            <h2>Km Livre - 2</h2>
+            <h2>Km Livre</h2>
         </div>
 
         <van-cell-group style="min-width: 330px;" inset>

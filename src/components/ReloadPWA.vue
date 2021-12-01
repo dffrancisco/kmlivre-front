@@ -1,5 +1,5 @@
 <template>
-  <div v-if="offlineReady || needRefresh">
+  <!-- <div v-if="offlineReady || needRefresh">
     <div class="message mt-1">
       <van-popup v-model="offlineReady">App ready to work offline</van-popup>
       <span v-if="offlineReady">App ready to work offline</span>
@@ -7,7 +7,7 @@
     </div>
 
     <button v-if="needRefresh" @click="updateServiceWorker()">Reload</button>
-  </div>
+  </div>-->
 
   <van-popup class="p-reload rounded" v-model:show="needRefresh">
     <h3>Nova atualização disponível, click para atualizar.</h3>
@@ -29,7 +29,7 @@ export default defineComponent({
 
     const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW();
 
-    console.log(offlineReady.value, needRefresh.value);
+    // console.log(offlineReady.value, needRefresh.value);
 
     const close = async () => {
       offlineReady.value = false;
@@ -38,15 +38,15 @@ export default defineComponent({
 
     // needRefresh.value = true;
 
-    return { offlineReady, needRefresh, updateServiceWorker, close };
+    return { offlineReady, needRefresh, updateServiceWorker };
   },
 
   methods: {
 
-    async close() {
-      this.offlineReady.value = false;
-      this.needRefresh.value = false;
-    },
+    // async close() {
+    //   this.offlineReady.value = false;
+    //   this.needRefresh.value = false;
+    // },
 
     async updateServiceWorker() {
       await updateServiceWorker();

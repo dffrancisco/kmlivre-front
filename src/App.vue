@@ -2,9 +2,9 @@
 <script setup lang="ts">
 import { nextTick, ref, onMounted } from "vue";
 import ReloadPWA from "./components/ReloadPWA.vue";
-import { state, actions } from './globalStore'
 import loginStore from '@/pages/login/login'
 import homeState from '@/pages/home/home'
+import { actions } from '@/globalStore'
 
 let install = ref(false);
 let deferredPrompt: null
@@ -12,7 +12,7 @@ let deferredPrompt: null
 nextTick(() => {
 
 
-  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     window.onfocus = () => {
 
       homeState.actions.getGeo()
@@ -21,7 +21,7 @@ nextTick(() => {
         if (loginStore.state.mobile)
           homeState.actions.getTrajetoAberto()
     }
-
+  }
 
   window.addEventListener("appinstalled", () => {
     console.log("a2hs installed, --");
@@ -69,9 +69,24 @@ const installApp = () => {
 }
 
 onMounted(async () => {
+
+
+  // // Listen for our custom event from the SW registration
+  // document.addEventListener('swUpdated', () => {
+  //   console.log(`update, swUpdated`);
+  // }, { once: true })
+
+  // // Prevent multiple refreshes
+  // navigator.serviceWorker.addEventListener('controllerchange', () => {
+  //   console.log('update servercier ower controllerchange');
+  //   // Here the actual reload of the page occurs
+  //   window.location.reload()
+  // })
+
+
   //@ts-ignore
-  // if (import.meta.env.VITE_SERVER == 'https://kmlivre.ddns.net')
-  //   await actions.subscription()
+  if (import.meta.env.VITE_SERVER == 'https://kmlivre.ddns.net')
+    await actions.subscription()
 
 })
 
