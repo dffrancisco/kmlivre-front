@@ -85,8 +85,8 @@ onMounted(async () => {
 
 
   //@ts-ignore
-  if (import.meta.env.VITE_SERVER != 'http://localhost')
-    await actions.subscription()
+  // if (import.meta.env.VITE_SERVER != 'http://localhost')
+  //   await actions.subscription()
 
 })
 

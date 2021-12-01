@@ -39,20 +39,28 @@ export const actions = {
 
         // const register = await navigator.serviceWorker.register("/worker_push_notification.js", {
 
-        const register = await navigator.serviceWorker.register('/sw.js', {
-            scope: "/"
-        });
+        // const register = await navigator.serviceWorker.register('/sw.js', {
+        //     scope: "/"
+        // });
 
 
-        const subscription = await register.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: actions.urlBase64ToUint8Array(PUBLIC_VAPID_KEY)
-        });
+        // const subscription = await register.pushManager.subscribe({
+        //     userVisibleOnly: true,
+        //     applicationServerKey: actions.urlBase64ToUint8Array(PUBLIC_VAPID_KEY)
+        // });
 
 
-        axios.post('/register', {
-            call: 'worker',
-            worker: JSON.stringify(subscription)
+        axios.post('/pushNotification', {
+            call: 'setWorker',
+            param: {
+                "endpoint": "https://fcm.googleapis.com/fcm/send/fmfVw29WEW4:APA91bFqpU0wFk7I69kvgEzmpSBkGV_nDB1wD7CzpGQ70KIV0CAv9pyQf3jZ-U2aYgULmsAV866LAJaTyEglMXGqRnJiAJ0o-8AzWC5Q3mf7nThvgAvjdKr6cNio18ilUae5U870EOLQ",
+                "expirationTime": null,
+                "keys": {
+                    "p256dh": "BNenKLUFLy2Hea0LYNh_6NFxjWa3grYm2GMjZLXY-3xJ-P5shUo3C85QnShtD_BJXl2C-Au7_3EBY-PjhxrocTs",
+                    "auth": "ndgmQgzCl6lbLuKe3uBzPg"
+                }
+            }
+            // param: JSON.stringify(subscription)
 
         })
 
@@ -61,11 +69,9 @@ export const actions = {
     },
 
     receberMsg() {
-        axios.post('/register', {
-            call: 'receber',
-            endpoint: state.endpoint,
-            p256dh: state.p256dh,
-            auth: state.auth
+        axios.post('/pushNotification', {
+            call: 'getPayload',
+            id_user: 2
         })
     }
 

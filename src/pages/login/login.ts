@@ -3,7 +3,8 @@ import md5 from "md5";
 import { reactive } from "vue";
 import router from "../../router";
 import { validMail } from "../../ts/utils";
-import { iLogin } from '@/models/interfaces'
+import { iLogin } from '@/models/interfaces';
+import globalStore from "@/globalStore";
 //@ts-ignore
 import util from "../../plugins/util.js";
 
@@ -82,6 +83,10 @@ export const actions = {
 
       this.setLogin(rs.data);
       this.setAuth(true);
+
+      // @ts-ignore
+      if (import.meta.env.VITE_SERVER != 'http://localhost')
+        await globalStore.actions.subscription()
 
       router.push("/");
     }

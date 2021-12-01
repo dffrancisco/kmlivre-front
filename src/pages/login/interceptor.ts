@@ -23,10 +23,12 @@ const onResponseError = (error: AxiosError): Promise<AxiosError> => {
 
 
     if (error.response?.data) {
-        if (error.response?.data.message.indexOf('TokenExpiredError') > -1) {
-            alert(error.response?.data.message);
+        if (error.response?.data.message.indexOf('Token Inválido') > -1)
             actions.logOut()
-        }
+
+        if (error.response?.data.message.indexOf('TokenExpiredError') > -1)
+            actions.logOut()
+
     }
 
     return Promise.reject(error);
