@@ -70,8 +70,8 @@ const installApp = () => {
 
 onMounted(async () => {
   //@ts-ignore
-  if (import.meta.env.VITE_SERVER == 'https://kmlivre.ddns.net')
-    await actions.subscription()
+  // if (import.meta.env.VITE_SERVER == 'https://kmlivre.ddns.net')
+  //   await actions.subscription()
 
 })
 
