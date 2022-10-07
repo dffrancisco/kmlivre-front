@@ -9,7 +9,7 @@ import { actions, state } from "./login";
     <!-- {{ state }} -->
     <div class="pnLogin">
         <div class="mb-10" style="text-align: center;">
-            <img src="../../../public/icon/icon-km-128.png" />
+            <img src="../../../public/icon/km-128.png" />
             <h2>Km Livre</h2>
         </div>
 

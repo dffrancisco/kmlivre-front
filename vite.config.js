@@ -35,17 +35,27 @@ export default defineConfig({
                 "categories": ["Office"],
                 icons: [
                     {
-                        src: "icon/icon-km-256.png",
+                        src: "icon/km-256.png",
                         sizes: "256x256",
                         type: "image/png",
                     },
                     {
+<<<<<<< Updated upstream
                         src: "icon/icon-km-512.png",
+=======
+                        src: "icon/km-256.png",
+                        sizes: "256x256",
+                        type: "image/png",
+                        purpose: "maskable",
+                    },
+                    {
+                        src: "icon/km-512.png",
+>>>>>>> Stashed changes
                         sizes: "512x512",
                         type: "image/png",
                     },
                     {
-                        src: "icon/icon-km-512.png",
+                        src: "icon/km-512.png",
                         sizes: "512x512",
                         type: "image/png",
                         purpose: "maskable",
